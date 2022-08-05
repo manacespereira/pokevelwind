@@ -10,7 +10,6 @@ export interface ApiListResult<T> {
 
 export const api = {
     get: async function get<T>(url: string, init?: RequestInit): Promise<T> {
-        throw new Error('Fetch error')
         const response = await fetch(`${baseUrl}${url}`, init);
         if (!response.ok) throw new Error('Fetch error');
         return await response.json() as T;
