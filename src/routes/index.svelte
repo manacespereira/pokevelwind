@@ -1,2 +1,20 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import { fetchPokemon, pokemon } from '../stores/pokemonStore';
+	let promise = fetchPokemon();
+</script>
+
+{#await promise}
+	<strong>Loading</strong>
+{:then _}
+	{#if $pokemon.length}
+		{#each $pokemon as singlePokemon}
+			<p>
+				{singlePokemon.name} | <a href={singlePokemon.url} target="_blank">{singlePokemon.url}</a>
+			</p>
+		{/each}
+	{:else}
+		<p>No Pokémon found!</p>
+	{/if}
+{:catch err}
+	<strong style="color: red">{err}</strong>
+{/await}
